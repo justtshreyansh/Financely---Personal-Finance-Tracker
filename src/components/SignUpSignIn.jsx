@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import "./SignUpSignIn.css";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
+  signInWithEmailAndPassword,signInWithPopup, GoogleAuthProvider
 } from "firebase/auth";
-import { auth, db  } from "../firebase";
-import {doc, setDoc} from "firebase/firestore";
+const provider = new GoogleAuthProvider();
+import { auth, db } from "../firebase";
+import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import Input from "./Input";
 import Button from "./Button";
@@ -76,9 +77,9 @@ const SignUpSignIn = () => {
       try {
         await setDoc(doc(db, "users", user.uid), {
           name: user.displayName ? user.displayName : name,
-          email:user.email,
+          email: user.email,
           photoURL: user.photoURL ? user.photoURL : "",
-          createdAt:new Date(),
+          createdAt: new Date(),
         });
         toast.success("Doc Created!");
         setLoading(false);
@@ -86,8 +87,7 @@ const SignUpSignIn = () => {
         toast.error(e.message);
         setLoading(false);
       }
-    }
-    else{
+    } else {
       toast.error("Doc already exists");
       setLoading(false);
     }
@@ -114,6 +114,38 @@ const SignUpSignIn = () => {
         });
     } else {
       toast.error("All fields are mandatory!");
+      setLoading(false);
+    }
+  }
+
+  function googleAuth() {
+    setLoading(true);
+    try {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          // This gives you a Google Access Token. You can use it to access the Google API.
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          const token = credential.accessToken;
+          // The signed-in user info.
+          const user = result.user;
+          setLoading(false);
+          toast.success("User authenticated");
+          createDoc(user);
+          navigate("/dashboard");
+          // IdP data available using getAdditionalUserInfo(result)
+          // ...
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          
+          toast.error(errorMessage);
+          setLoading(false);
+          // ...
+        });
+    } catch (e) {
+      toast.error(e.message);
       setLoading(false);
     }
   }
@@ -148,6 +180,7 @@ const SignUpSignIn = () => {
             />
             <p style={{ textAlign: "center", margin: 0 }}>or</p>
             <Button
+            onClick={googleAuth}
               text={loading ? "Loading" : "Login using Google"}
               blue={true}
             />
@@ -199,6 +232,7 @@ const SignUpSignIn = () => {
             />
             <p style={{ textAlign: "center", margin: 0 }}>or</p>
             <Button
+             onClick={googleAuth}
               text={loading ? "Loading" : "Sign using Google"}
               blue={true}
             />
