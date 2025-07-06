@@ -9,11 +9,14 @@ import { auth, db } from "../firebase";
 import { addDoc, collection, getDocs, query } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import moment from "moment";
+import TransactionTable from "../components/TransactionTable";
 const Dashboard = () => {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user] = useAuthState(auth);
- 
+ const[income,setIncome] = useState(0);
+ const [expense,setExpense] = useState(0);
+ const[totalBalance,setTotalBalance] =useState(0);
   const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false);
   const [isIncomeModalVisible, setIsIncomeModalVisible] = useState(false);
   const showExpenseModal = () => {
@@ -43,26 +46,30 @@ const Dashboard = () => {
     // calculateBalance();
   };
 
-  // const calculateBalance =()=>{
-  //   let incomeTotal = 0;
-  //   let expenseTotal = 0;
-  //   transactions.forEach((transaction)=>{
-  //     if(transaction.type==='income'){
-  //       incomeTotal+=transaction.amount;
-  //     }
-  //     else{
-  //       expenseTotal+=transaction.amount;
-  //     }
-  //   });
-  //   setIncome(incomeTotal);
-  //   setExpense(expenseTotal);
-  //   setCurrentBalance(incomeTotal-expenseTotal);
-  // };
+  const calculateBalance =()=>{
+    let incomeTotal = 0;
+    let expenseTotal = 0;
+    transactions.forEach((transaction)=>{
+      if(transaction.type==='income'){
+        incomeTotal+=transaction.amount;
+      }
+      else{
+        expenseTotal+=transaction.amount;
+      }
+    });
+    setIncome(incomeTotal);
+    setExpense(expenseTotal);
+    setTotalBalance(incomeTotal-expenseTotal);
+  };
   useEffect(()=>{
-    // calculateBalance();
+   
     fetchTransactions();
    
   },[user]);
+
+  useEffect(()=>{
+    calculateBalance();
+  },[transactions]);
 
   async function addTransaction(transaction, many) {
     try {
@@ -74,6 +81,9 @@ const Dashboard = () => {
       if (!many) {
         toast.success("Transaction Added");
       }
+      setTransactions((prev) => [...prev, transaction]);
+
+
     } catch (e) {
       console.error("error adding document", e);
       if (!many) {
@@ -109,6 +119,9 @@ const Dashboard = () => {
         <>
           <Header />
           <Cards
+          income={income}
+          expense={expense}
+          totalBalance={totalBalance}
             showExpenseModal={showExpenseModal}
             showIncomeModal={showIncomeModal}
           />
@@ -122,6 +135,7 @@ const Dashboard = () => {
             handleExpenseCancel={handleExpenseCancel}
             onFinish={onFinish}
           />
+          <TransactionTable transactions={transactions} key={Math.random()*10000}/>
         </>
       )}
     </div>

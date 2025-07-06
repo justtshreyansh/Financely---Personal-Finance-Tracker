@@ -31,6 +31,7 @@ const AddExpense = ({
         onFinish={(values) => {
           onFinish(values, "expense");
           form.resetFields();
+           handleExpenseCancel();
         }}
       >
         <Form.Item
@@ -86,7 +87,7 @@ const AddExpense = ({
 
         </Form.Item>
         <Form.Item>
-            <Button onClick={onFinish} blue={true} text="Add Expense" />
+            <Button onClick={() => form.submit()} blue={true} text="Add Expense" />
         </Form.Item>
       </Form>
     </Modal>

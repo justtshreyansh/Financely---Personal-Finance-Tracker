@@ -31,6 +31,7 @@ const AddIncome = ({
         onFinish={(values) => {
           onFinish(values, "income");
           form.resetFields();
+          handleIncomeCancel();
         }}
       >
         <Form.Item
@@ -86,7 +87,7 @@ const AddIncome = ({
 
         </Form.Item>
         <Form.Item>
-            <Button   onClick={() => form.submit()} blue={true} text="Add Income" />
+            <Button  onClick={() => onFinish(form.getFieldsValue(), "income")} blue={true} text="Add Income" />
         </Form.Item>
       </Form>
     </Modal>
