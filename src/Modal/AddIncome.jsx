@@ -86,7 +86,7 @@ const AddIncome = ({
 
         </Form.Item>
         <Form.Item>
-            <Button onClick={onFinish} blue={true} text="Add Income" />
+            <Button   onClick={() => form.submit()} blue={true} text="Add Income" />
         </Form.Item>
       </Form>
     </Modal>
