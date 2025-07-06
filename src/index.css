@@ -38,3 +38,108 @@ input{
   opacity: 1;
   transition: all 0.3s;
 }
+
+.input-flex{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap:0.5rem;
+  width: 100%;
+  box-shadow: 0px 0px 30px 8px var(--shadow);
+  border-radius: 0.5rem;
+  padding: 0rem 0.5rem;
+}
+
+.input-flex input{
+  width: 100%;
+  padding:0.5rem;
+  border: 0;
+}
+
+.input-flex input:focus{
+  outline: none;
+}
+
+.select-input{
+  width: 30%;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 0px 30px 8px var(--shadow);
+  border-radius: 0.5rem !important;
+  padding: 0.2rem 0.5rem;
+
+}
+.select-input-2 >div{
+  border-width: 0px !important;
+  border-bottom-width: 1px !important;
+  border-radius: 0 !important;
+  border-color: #000 !important;
+}
+
+.select-input >div{
+  border: 0px solid #fff !important;
+}
+
+.my-table{
+  box-shadow: 0px 0px 30px 8px var(--shadow);
+  border-radius: 0.5rem !important;
+  padding: 2rem;
+  margin-bottom: 4rem;
+}
+
+
+/* Header Styling */
+.ant-table-thead > tr > th {
+  background-color: #4a90e2 !important; /* Blue header */
+  color: white !important;
+  text-align: center !important;
+  font-weight: bold;
+  font-size: 1rem; /* Increased font size */
+  padding: 12px !important;
+}
+
+/* Table Header - KEEPING the perfect color */
+.ant-table-thead > tr > th {
+  background-color: #4a90e2 !important; /* Perfect blue */
+  color: white !important;
+  text-align: center !important;
+  font-weight: bold;
+  font-size: 1rem; /* Slightly larger and cleaner */
+  padding: 12px !important;
+}
+
+/* Table Body - Zebra striping for clarity */
+.ant-table-tbody > tr:nth-child(odd) > td {
+  background-color: #f5f7fa; /* Soft blue-gray */
+}
+.ant-table-tbody > tr:nth-child(even) > td {
+  background-color: #ffffff;
+}
+
+/* Table Body Cell Styles */
+.ant-table-tbody > tr > td {
+  text-align: center !important;
+  font-size: 0.95rem;
+  padding: 10px 16px !important;
+  color: #333;
+}
+
+/* Input Field Styling */
+.input-flex input {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+/* Select Dropdown */
+.select-input {
+  width: 150px;
+  font-size: 0.95rem;
+}
+
+/* Sort Radio Buttons */
+.input-radio .ant-radio-button-wrapper {
+  font-size: 0.9rem;
+}
